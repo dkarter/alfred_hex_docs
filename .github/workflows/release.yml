@@ -15,16 +15,17 @@ jobs:
 
       - name: Build Alfred Workflow
         id: alfred_builder
-        uses: mperezi/build-alfred-workflow@v1.0.1
+        uses: mperezi/build-alfred-workflow@v1
         with:
           workflow_dir: .
           exclude_patterns: '.github .git'
+          custom_version: ${{ github.ref_name }}
 
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN_ALFRED_HEX_DOCS }}
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
