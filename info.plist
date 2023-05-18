@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>net.dkarter.alfred.hexdocs</string>
+	<key>connections</key>
+	<dict>
+		<key>07F4DB9A-B348-49F8-9C38-065B56B596B6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2CDB9F6B-02BC-44F4-981C-3AEB0E784955</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Dorian Karter</string>
+	<key>description</key>
+	<string>Show hex docs for a package with autocomplete</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>hexdocs</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>2CDB9F6B-02BC-44F4-981C-3AEB0E784955</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>hexdocs</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading...</string>
+				<key>script</key>
+				<string># frozen_string_literal: true
+
+require 'net/http'
+require 'json'
+require 'uri'
+require 'erb'
+
+query = ARGV[0]
+encoded_query = ERB::Util.url_encode(query)
+
+uri = URI.parse("https://hex.pm/api/packages?sort=downloads&amp;search=#{encoded_query}")
+
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true
+
+req = Net::HTTP::Get.new(uri)
+
+res = http.request(req)
+
+json_resp = JSON.parse(res.body)
+
+script_filter_items = json_resp.map do |result|
+  {
+    title: result['name'],
+    subtitle: result['meta']['description'],
+    arg: result['docs_html_url'],
+    variables: {
+      package_url: result['html_url']
+    },
+    quicklookurl: result['docs_html_url']
+  }
+end
+
+puts({ items: script_filter_items }.to_json)</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Show hex docs for an Elixir package</string>
+				<key>title</key>
+				<string>HexDocs</string>
+				<key>type</key>
+				<integer>2</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>07F4DB9A-B348-49F8-9C38-065B56B596B6</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>07F4DB9A-B348-49F8-9C38-065B56B596B6</key>
+		<dict>
+			<key>xpos</key>
+			<real>210</real>
+			<key>ypos</key>
+			<real>185</real>
+		</dict>
+		<key>2CDB9F6B-02BC-44F4-981C-3AEB0E784955</key>
+		<dict>
+			<key>xpos</key>
+			<real>670</real>
+			<key>ypos</key>
+			<real>155</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>webaddress</key>
+	<string>https://doriankarter.com</string>
+</dict>
+</plist>
