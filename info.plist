@@ -79,7 +79,7 @@
 				<key>runningsubtext</key>
 				<string>Loading...</string>
 				<key>script</key>
-				<string>ruby hexdocs.rb</string>
+				<string>ruby hexdocs.rb "$1"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
