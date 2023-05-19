@@ -14,6 +14,11 @@ just `hex`.
 - Alfred Power Pack
 - Ruby (`asdf install ruby latest`)
 
+## Installation
+
+1. Download the workflow from Github Releases: https://github.com/dkarter/alfred_hex_docs/releases/latest/download/hexdocs.alfredworkflow
+2. Open the file to install the workflow
+
 ## Usage
 
 Open Alfred and type `hexdocs [package name]`. Press Enter to open the docs or
