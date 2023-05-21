@@ -79,8 +79,7 @@
 				<key>runningsubtext</key>
 				<string>Loading...</string>
 				<key>script</key>
-				<string>source ~/.asdf/asdf.sh
-elixir hexdocs.exs "$1"</string>
+				<string>./hexdocs.sh "$1"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
